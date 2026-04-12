@@ -174,10 +174,13 @@ function getWallet() {
 
   const earnedCash = records.reduce((total, record) => total + toNumber(record.cashEarning), 0);
   const earnedOnline = records.reduce((total, record) => total + toNumber(record.onlineEarning), 0);
+  const totalExpense = records.reduce((total, record) => total + toNumber(record.expenseAmount), 0);
   const depositedCash = deposits.reduce((total, deposit) => total + toNumber(deposit.cashDeposit), 0);
   const depositedOnline = deposits.reduce((total, deposit) => total + toNumber(deposit.onlineDeposit), 0);
-  const availableCash = Math.max(earnedCash - depositedCash, 0);
-  const availableOnline = Math.max(earnedOnline - depositedOnline, 0);
+  const expenseFromCash = Math.min(earnedCash, totalExpense);
+  const expenseFromOnline = Math.max(totalExpense - expenseFromCash, 0);
+  const availableCash = Math.max(earnedCash - expenseFromCash - depositedCash, 0);
+  const availableOnline = Math.max(earnedOnline - expenseFromOnline - depositedOnline, 0);
 
   return {
     availableCash,
@@ -186,6 +189,7 @@ function getWallet() {
     depositedCash,
     depositedOnline,
     depositedTotal: depositedCash + depositedOnline,
+    totalExpense,
   };
 }
 

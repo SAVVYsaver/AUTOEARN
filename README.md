@@ -10,6 +10,7 @@ Ye animated static website daily auto earning ko Google Sheet me save karti hai.
 - Ek date ke liye only one entry allowed hai
 - Duplicate date par Google Apps Script error return karega: `Data already entered for this date.`
 - Money Wallet card me cash available, online available aur total deposited dikhega
+- Available amount earning me se expense minus karke calculate hota hai
 - `Deposit Now` click karte hi available cash/online `Bank Deposits` sheet me save hoga
 - Deposit ke baad available amount zero ho jayega, phir daily entries ke saath dobara badhega
 - Cash aur online earning alag input
