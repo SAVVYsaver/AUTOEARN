@@ -55,6 +55,54 @@ button, input, textarea { font: inherit; }
 .login-card h1, .login-card p { margin: 0; }
 .login-card p:not(.eyebrow) { color: #d7e3ef; line-height: 1.5; }
 
+.auth-form {
+  display: none;
+  gap: 16px;
+}
+
+.auth-form.active {
+  display: grid;
+}
+
+.auth-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.role-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.role-switch label {
+  border: 1px solid rgba(31, 182, 255, 0.42);
+  border-radius: 6px;
+  padding: 10px;
+  color: #d7e3ef;
+  font-weight: 700;
+}
+
+.role-switch input {
+  width: auto;
+  margin-right: 6px;
+}
+
+.link-button {
+  border: 1px solid rgba(31, 182, 255, 0.42);
+  border-radius: 6px;
+  padding: 9px 12px;
+  color: #d7e3ef;
+  cursor: pointer;
+  background: transparent;
+}
+
+.link-button.active {
+  color: #07111f;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+}
+
 .login-card label, .entry-form label {
   display: grid;
   gap: 8px;
@@ -82,6 +130,21 @@ button, input, textarea { font: inherit; }
   align-items: center;
   gap: 16px;
   margin-bottom: 18px;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.driver-badge {
+  border: 1px solid rgba(31, 182, 255, 0.35);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--panel);
+  font-weight: 700;
+  background: #ffffff;
 }
 
 .brand {
@@ -162,7 +225,7 @@ button, input, textarea { font: inherit; }
 
 .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
 
-.tab-button, .secondary-button, button[type="submit"], .login-card button, .wallet-main button {
+.tab-button, .secondary-button, button[type="submit"], .auth-form button, .wallet-main button {
   min-height: 46px;
   border-radius: 6px;
   padding: 12px 18px;
@@ -171,7 +234,7 @@ button, input, textarea { font: inherit; }
 }
 
 .tab-button, .secondary-button { border: 1px solid var(--cyan); color: var(--cyan); background: #ffffff; }
-.tab-button.active, button[type="submit"], .login-card button, .wallet-main button { border: 0; color: #07111f; background: linear-gradient(90deg, var(--cyan), var(--green)); }
+.tab-button.active, button[type="submit"], .auth-form button, .wallet-main button { border: 0; color: #07111f; background: linear-gradient(90deg, var(--cyan), var(--green)); }
 
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
@@ -294,6 +357,11 @@ td { line-height: 1.5; }
 
 .deposit-history h3 {
   margin: 20px 24px 14px;
+}
+
+.admin-create-form {
+  max-width: none;
+  margin: 24px;
 }
 
 @keyframes autoBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
