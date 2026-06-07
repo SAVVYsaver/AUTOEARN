@@ -187,9 +187,19 @@ function saveEntry(payload) {
 }
 
 function saveDeposit(payload) {
-  const user = getUserByKey(payload.userKey);
+  let user = getUserByKey(payload.userKey);
+  const admin = getUserByKey(payload.adminKey);
+
+  if (admin && admin.role === "admin" && payload.targetUserKey) {
+    user = getUserByKey(payload.targetUserKey);
+  }
+
   if (!user || user.status !== "active" || user.role !== "user") {
-    return jsonResponse({ ok: false, message: "Valid user login required." });
+    return jsonResponse({ ok: false, message: "Valid user required for deposit." });
+  }
+
+  if (!admin && (!getUserByKey(payload.userKey) || getUserByKey(payload.userKey).role !== "user")) {
+    return jsonResponse({ ok: false, message: "Valid login required." });
   }
 
   const wallet = getWallet(user.userKey);
