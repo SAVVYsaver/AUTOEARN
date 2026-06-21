@@ -158,8 +158,8 @@ function getEndpointUrl(action, extra = {}) {
   return url;
 }
 
-async function postAction(action, payload) {
-  setLoadingState(true);
+async function postAction(action, payload, options = {}) {
+  if (!options.silent) setLoadingState(true);
   try {
     const response = await fetch(getEndpointUrl(action), {
       method: "POST",
@@ -169,19 +169,19 @@ async function postAction(action, payload) {
     if (!result.ok) throw new Error(result.message || "Request failed.");
     return result;
   } finally {
-    setLoadingState(false);
+    if (!options.silent) setLoadingState(false);
   }
 }
 
-async function getAction(action, extra = {}) {
-  setLoadingState(true);
+async function getAction(action, extra = {}, options = {}) {
+  if (!options.silent) setLoadingState(true);
   try {
     const response = await fetch(getEndpointUrl(action, extra));
     const result = await response.json();
     if (!result.ok) throw new Error(result.message || "Request failed.");
     return result;
   } finally {
-    setLoadingState(false);
+    if (!options.silent) setLoadingState(false);
   }
 }
 
@@ -313,6 +313,8 @@ function activateTab(tabId) {
   ui.tabPanels.forEach((panel) => panel.classList.toggle("active", panel.id === tabId));
   if (tabId === "chatPanel") {
     startChatPolling();
+  } else {
+    stopChatPolling();
   }
 }
 
@@ -680,7 +682,7 @@ async function pollChat() {
   const selected = ui.chatRecipient.value;
   if (!currentSession || !selected) return;
   try {
-    const result = await getAction("messages", { otherUserKey: selected });
+    const result = await getAction("messages", { otherUserKey: selected }, { silent: true });
     dashboardState.threadMessages = result.data.messages || [];
     renderChatMessages(dashboardState.threadMessages);
   } catch (error) {
@@ -691,6 +693,7 @@ async function pollChat() {
 function startChatPolling() {
   clearInterval(chatPollTimer);
   if (!currentSession) return;
+  if (!document.getElementById("chatPanel").classList.contains("active")) return;
   pollChat();
   chatPollTimer = window.setInterval(pollChat, CHAT_POLL_MS);
 }
@@ -730,7 +733,6 @@ ui.loginForm.addEventListener("submit", async (event) => {
     ui.loginPassword.value = "";
     showApp();
     await loadDashboard();
-    startChatPolling();
   } catch (error) {
     setMessage(ui.loginStatus, error.message, "error");
   }
@@ -985,5 +987,5 @@ try {
 
 if (currentSession?.userKey && resumeSessionTimer()) {
   showApp();
-  loadDashboard().then(startChatPolling).catch((error) => setMessage(ui.loginStatus, error.message, "error"));
+  loadDashboard().catch((error) => setMessage(ui.loginStatus, error.message, "error"));
 }
