@@ -1,0 +1,38 @@
+/* Dealskart – Auto Earning Tracker Custom Styles */
+:root {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.nav-btn {
+  transition: all 0.18s ease;
+}
+.nav-btn.nav-active {
+  background-color: rgba(79, 70, 229, 0.12);
+  color: #4f46e5;
+  font-weight: 700;
+}
+html.dark .nav-btn.nav-active {
+  background-color: rgba(99, 102, 241, 0.22);
+  color: #818cf8;
+}
+.kpi-card {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.kpi-card:hover {
+  transform: translateY(-2px);
+}
+/* Smooth custom scrollbars */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.35);
+  border-radius: 9999px;
+}
